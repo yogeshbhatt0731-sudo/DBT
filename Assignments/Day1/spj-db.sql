@@ -56,8 +56,34 @@ INSERT INTO sp(`S#`,`P#`,`J#`,QTY) VALUES('S1','P1','J1',200),
 ('S5' ,'P6', 'J4' ,500);
 
 
+select ename, hire, timestampdiff(year,hire,NOW()) expYears , timestampdiff(month,hire,NOW())%12 exyMonths,
+timestampdiff(day ,
+adddate(
+    adddate(hire,interval timestampdiff(year,hire,NOW()) year ),interval timestampdiff(month,hire,NOW())%12 month),
+    now()
+) days
+from emp;
+
+-- emp is attending meeting. display ename and meeting no.
+SELECT e.ename , em.meetno FROM emps e 
+INNER JOIN emp_meeting em ON e.empno = em.empno ;
+
+-- emp is attending meeting. display ename and meeting topic.
+
+-- each emp is representing his dept. display ename and dname.
+SELECT e.ename , d.dname FROM emps e INNER JOIN depts d ON e.deptno = d.deptno;
+
+-- emp emp is working in some dept from his home. display ename, dname, and his tal.
+select c.cname , s.sname , s.comm from customers c inner join salespeople s where comm>0.12 ; 
+
+select s.sname , s.comm from customers c inner join salespeople s on s.snum = c.snum where c.rating>100;
+
+-- Write a query that calculates the commission earned by each 
+salesperson for orders placed by customers with a rating above 100.
+
+select o.onum , o.amt*s.comm  from customers c inner join orders o on c.cnum = o.cnum  inner join salespeople s on s.snum = o.snum where c.rating>100;
 
 
-SELECT FIRST_NAME , HIRE_DATE , TIMESTAMPDIFF(YEAR,HIRE_DATE,NOW()) 'EXP YEAR'  , TIMESTAMPDIFF(MONTH,HIRE_DATE,NOW())%12 'EXP MONTH'  , (TIMESTAMPDIFF(DAY,HIRE_DATE,NOW())%365)%30 'EXP DAY'  FROM employees;
-SELECT EMPLOYEE_ID , FIRST_NAME , HIRE_DATE FROM employees WHERE MONTH(HIRE_DATE)=8 ;
-SELECT * FROM employees WHERE DAY(employees.HIRE_DATE)>'15';
+select d.DEPARTMENT_NAME , e.FIRST_NAME , l.CITY from departments d  inner join employees e on d.DEPARTMENT_ID = e.DEPARTMENT_ID  inner join locations l on l.LOCATION_ID = d.LOCATION_ID where d.MANAGER_ID = e.EMPLOYEE_ID ;
+
+select d.DEPARTMENT_NAME , e.FIRST_NAME , l.CITY ,c.COUNTRY_NAME from departments d  inner join employees e on d.DEPARTMENT_ID = e.DEPARTMENT_ID  inner join locations l on l.LOCATION_ID = d.LOCATION_ID inner join countries c on c.COUNTRY_ID = l.COUNTRY_ID  where d.MANAGER_ID = e.EMPLOYEE_ID ;
