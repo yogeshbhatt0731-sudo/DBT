@@ -87,3 +87,8 @@ select o.onum , o.amt*s.comm  from customers c inner join orders o on c.cnum = o
 select d.DEPARTMENT_NAME , e.FIRST_NAME , l.CITY from departments d  inner join employees e on d.DEPARTMENT_ID = e.DEPARTMENT_ID  inner join locations l on l.LOCATION_ID = d.LOCATION_ID where d.MANAGER_ID = e.EMPLOYEE_ID ;
 
 select d.DEPARTMENT_NAME , e.FIRST_NAME , l.CITY ,c.COUNTRY_NAME from departments d  inner join employees e on d.DEPARTMENT_ID = e.DEPARTMENT_ID  inner join locations l on l.LOCATION_ID = d.LOCATION_ID inner join countries c on c.COUNTRY_ID = l.COUNTRY_ID  where d.MANAGER_ID = e.EMPLOYEE_ID ;
+
+select rating from customers where snum = (select snum from salespeople where sname = 'Serres');
+
+select amt , (select avg(amt) from orders) as avg_amt from orders;
+select o.amt,c.cname,c.rating , (select avg(amt) from orders )as avg_amt  from orders o inner join customers c on o.cnum = c.cnum where amt>avg_amt;
